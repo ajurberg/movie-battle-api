@@ -2,6 +2,8 @@ package br.com.letscode.java.moviebattleapi.imdbclient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Arrays;
+
 public class MovieMinimal {
 
     @JsonProperty("imdbID")
@@ -10,10 +12,19 @@ public class MovieMinimal {
     private String title;
     private Integer year;
 
-    @JsonProperty
+    @JsonProperty("Year")
     public void setYear(String year) {
-        //TODO
+        this.year = convertYear(year);
     }
 
+    private int convertYear(final String year) {
+        if (year.matches("\\d+")) {
+            return Integer.parseInt(year);
+        }
+        return Arrays.stream(year.split("\\D"))
+                .map(Integer::parseInt)
+                .findFirst()
+                .orElseThrow();
+    }
 
 }
