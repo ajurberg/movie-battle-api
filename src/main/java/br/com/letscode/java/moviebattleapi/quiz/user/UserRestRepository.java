@@ -1,7 +1,7 @@
-package br.com.letscode.java.moviebattleapi.Dao;
+package br.com.letscode.java.moviebattleapi.quiz.user;
 
 import br.com.letscode.java.moviebattleapi.quiz.user.User;
-import org.springframework.lang.UsesSunMisc;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
-
-public class UserDaoImpl {
+@Repository
+public class UserRestRepository {
 
     private Path user;
     private Path rank;
