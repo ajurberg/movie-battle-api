@@ -11,8 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MovieDTO {
 
+    private String imdbId;
     private String title;
     private Integer year;
-    private String imdbId;
+    private String genre;
+    private Double rating;
+    private Long votes;
 
 }
