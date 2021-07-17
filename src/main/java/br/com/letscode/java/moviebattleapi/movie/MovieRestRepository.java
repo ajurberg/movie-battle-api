@@ -1,7 +1,7 @@
-package br.com.letscode.java.moviebattleapi.Dao;
+package br.com.letscode.java.moviebattleapi.movie;
 
 import br.com.letscode.java.moviebattleapi.movie.Movie;
-import br.com.letscode.java.moviebattleapi.quiz.user.User;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,8 +13,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
-
-public class FilmeDaoImpl {
+@Repository
+public class MovieRestRepository {
 
     private Path movie;
 
