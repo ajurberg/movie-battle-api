@@ -18,7 +18,7 @@ public class UserService {
         if (verificarRegra(user)) {
             userRestRepository.inserirNoArquivo(user);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -32,23 +32,21 @@ public class UserService {
             for (int i = 0; i < user.getUserId().length(); i++) {
 
                 //verifica se o userId tem caracteres especiais
-                if (!Character.isAlphabetic(user.getUserId().charAt(i))
-                        && !Character.isDigit(user.getUserId().charAt(i))) {
+                if (Character.isAlphabetic(user.getUserId().charAt(i))
+                        || Character.isDigit(user.getUserId().charAt(i))) {
 
                     for (int j = 0; j < user.getPassword().length(); j++) {
 
                         //verifica se o password tem caracteres especiais
-                        if (!Character.isAlphabetic(user.getPassword().charAt(j))
-                                && !Character.isDigit(user.getPassword().charAt(j))) {
+                        if (Character.isAlphabetic(user.getPassword().charAt(j))
+                                || Character.isDigit(user.getPassword().charAt(j))) {
                             return true;
                         }
                     }
                 }
             }
-        }else {
-            return false;
         }
-        return true;
+        return false;
     }
 
     //o nome de usuario deve possuir de 5-10 caracteres
