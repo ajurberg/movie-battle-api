@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @NoArgsConstructor
 @RequestMapping("/users")
 @RestController
-public class UserRestControler {
+public class UserRestController {
 
 
     private UserService userService;
