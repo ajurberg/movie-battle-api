@@ -9,20 +9,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @RequestMapping("/users")
 @RestController
 public class UserRestController {
 
-
     @Autowired
     private UserService userService;
 
+    public UserRestController (UserService userService){
+        this.userService = userService;
+    }
+
+
     @PostMapping
-    public User criar(@RequestBody User user){
-        userService.verificarRegra(user);
-        return user;
+    public String criar(@RequestBody User user) {
+        if (userService.criar(user)){
+            return "Usúario cadastrado com sucesso";
+        }
+        return "Erro ao criar usúario";
     }
 
     //post para criação de um novo usuario chama o services

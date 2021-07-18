@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
+
+
 @Repository
 public class UserRestRepository {
 
@@ -22,10 +24,9 @@ public class UserRestRepository {
 
     @PostConstruct
     public void init() {
-        final String pathRank = "movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\ranking\\Ranking.csv";
+        final String pathRank = "src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\ranking\\Ranking.csv";
         this.rank = Paths.get(pathRank);
-//        final String pathUser = "movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\usuarios\\Jogadores.csv";
-        final String pathUser = "C:\\Users\\gabri\\IdeaProjects\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\usuarios\\Jogadores.csv";
+        final String pathUser = "src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\usuarios\\Jogadores.csv";
         this.user = Paths.get(pathUser);
     }
 
