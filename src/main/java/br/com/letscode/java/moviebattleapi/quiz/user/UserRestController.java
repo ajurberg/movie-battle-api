@@ -21,7 +21,7 @@ public class UserRestController {
     }
 
     @PostMapping
-    public User criar(@RequestBody User user) {
+    public User create(@RequestBody User user) {
         //TODO Criar log INFO
         return userService.criar(user);
     }
