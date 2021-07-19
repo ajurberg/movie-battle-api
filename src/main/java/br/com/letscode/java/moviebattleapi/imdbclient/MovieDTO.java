@@ -14,7 +14,7 @@ public class MovieDTO {
     private String imdbId;
     private String title;
     private Integer year;
-    private String genre;
+    //private String genre;
     private Double rating;
     private Long votes;
 
