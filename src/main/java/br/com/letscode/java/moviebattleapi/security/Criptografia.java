@@ -1,6 +1,14 @@
 package br.com.letscode.java.moviebattleapi.security;
 
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.stereotype.Service;
+
+@Service
 public class Criptografia {
-    //esta classe é só para lembrar que temos que fazer e como
-    //A senha deve ser criptografada com SHA-1
+
+    public String encode(String plainPassword) {
+        return DigestUtils.sha1Hex(plainPassword);
+
+    }
 }
