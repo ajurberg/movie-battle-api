@@ -1,15 +1,18 @@
 package br.com.letscode.java.moviebattleapi.quiz.user;
 
+import com.opencsv.CSVReader;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 @Repository
 public class UserRestRepository {
 
+    public List<User> userList;
     private Path userPath;
     private Path rankPath;
 
@@ -63,19 +67,20 @@ public class UserRestRepository {
         return usuario;
     }
 
-    public boolean autenticarUsuario(User id, User senha) throws IOException {
-        List<User> users = getAll();
-        Optional<User> idUser = users.stream()
-                .filter(clienteSearch -> clienteSearch.getUserId().equals(id)).findFirst();
-        Optional<User> senhaUser = users.stream()
-                .filter(clienteSearch -> clienteSearch.getPassword().equals(senha)).findFirst();
-        // FIXME
-        // Condition 'idUser.isPresent()' is always 'false'
-        // Condition 'idUser.isPresent() && senhaUser.isPresent()' is always 'false'
-        if (idUser.isPresent() && senhaUser.isPresent()) {
-            return true;
-        } else {
-            return false;
+    public void carregarJogadores() throws IOException {
+        this.userList = new ArrayList<>();
+        Reader leitor = Files.newBufferedReader(this.userPath);
+        CSVReader csvReader = new CSVReader(leitor);
+        String[] linhaArq;
+        while ((linhaArq = csvReader.readNext()) != null) {
+            for (String s : linhaArq) {
+                StringTokenizer token = new StringTokenizer(s, ";");
+                User user = new User();
+                user.setUserId(token.nextToken());
+                user.setPassword(token.nextToken());
+                this.userList.add(user);
+            }
         }
+
     }
 }

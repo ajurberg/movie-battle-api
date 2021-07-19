@@ -2,9 +2,13 @@ package br.com.letscode.java.moviebattleapi.quiz;
 
 import br.com.letscode.java.moviebattleapi.imdbclient.ImdbScraper;
 import br.com.letscode.java.moviebattleapi.movie.Movie;
+import br.com.letscode.java.moviebattleapi.quiz.user.User;
+import br.com.letscode.java.moviebattleapi.quiz.user.UserRestRepository;
+import br.com.letscode.java.moviebattleapi.quiz.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,8 +20,8 @@ import java.util.Random;
 @Service
 public class QuizService {
 
-    private QuizRestController quizRestController;
-    private ImdbScraper imdbScraper;
+    private UserRestRepository userRestRepository;
+    private UserService userService;
 
     public List createQuiz() throws IOException {
         // TODO
@@ -51,6 +55,15 @@ public class QuizService {
     public static int getRandomNumberUsingNextInt(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min) + min;
+    }
+
+    public String login(@RequestBody User user) throws IOException {
+        this.userRestRepository.carregarJogadores();
+        if (this.userService.verificaUsuario(user)) {
+            return "Login realizado com sucesso";
+        } else {
+            return "usuário ou senha incorretos";
+        }
     }
 
 

@@ -46,10 +46,22 @@ public class UserService {
                 //System.out.println("A string não possui caracteres especiais"); // TODO Log
                 return true;
             }
-          }
         }
-
     }
+
+    public boolean verificaUsuario(User usuario) {
+        usuario.setPassword(cripto.encode(usuario.getPassword()));
+        for (User user : this.userRestRepository.userList) {
+            if (usuario.getUserId().equals(user.getUserId())
+                    && usuario.getPassword().equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+
 
 
 
