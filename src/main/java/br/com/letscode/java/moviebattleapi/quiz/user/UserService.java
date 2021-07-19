@@ -38,37 +38,15 @@ public class UserService {
             Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
             Matcher userMatcher = pattern.matcher(user.getUserId());
             boolean isUserMatcher = userMatcher.find();
-
             Matcher passwordMatcher = pattern.matcher(user.getPassword());
             boolean isPasswordMatcher = passwordMatcher.find();
-
             if (isUserMatcher || isPasswordMatcher) {
                 //System.out.println("A string possui caracteres especiais"); // TODO Log
-
                 return false;
             } else {
                 //System.out.println("A string não possui caracteres especiais"); // TODO Log
                 return true;
             }
-            //
-//                for (int i = 0; i < user.getUserId().length(); i++) {
-//
-//                    //verifica se o userId tem caracteres especiais
-//                    if (Character.isAlphabetic(user.getUserId().charAt(i))
-//                            || Character.isDigit(user.getUserId().charAt(i))) {
-//
-//                        for (int j = 0; j < user.getPassword().length(); j++) {
-//
-//                            //verifica se o password tem caracteres especiais
-//                            if (Character.isAlphabetic(user.getPassword().charAt(j))
-//                                    || Character.isDigit(user.getPassword().charAt(j))) {
-//                                return true;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            return false;
           }
         }
 

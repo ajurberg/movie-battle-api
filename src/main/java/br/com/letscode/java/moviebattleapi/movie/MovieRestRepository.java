@@ -4,6 +4,7 @@ import br.com.letscode.java.moviebattleapi.imdbclient.ImdbScraper;
 import br.com.letscode.java.moviebattleapi.imdbclient.MovieDTO;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +27,7 @@ public class MovieRestRepository {
 
     private Path movie;
 
+    @PostConstruct
     public void init() {
         final String pathMovie = ".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv";
         this.movie = Paths.get(pathMovie);
@@ -44,7 +46,6 @@ public class MovieRestRepository {
             e.printStackTrace();
         }
     }
-
     /**
      * public Movie inserirNoArquivo(Movie filme) {
      * try (BufferedWriter bf = Files.newBufferedWriter(movie, StandardOpenOption.APPEND)) {
@@ -61,21 +62,24 @@ public class MovieRestRepository {
     }
 
     public List<Movie> getAll() throws IOException {
-        List<Movie> movie;
+        List<Movie> movieList;
         try (BufferedReader br = Files.newBufferedReader(this.movie)) {
-            movie = br.lines().filter(String::isEmpty)
+            movieList = br.lines().filter(String::isEmpty)
                     .map(this::converterLinhaEmFilme)
                     .collect(Collectors.toList());
         }
-        return movie;
+        return movieList;
     }
 
     public Movie converterLinhaEmFilme(String linha) {
         StringTokenizer token = new StringTokenizer(linha, ";");
         Movie movie = new Movie();
+        movie.setImdbId(token.nextToken());
         movie.setTitle(token.nextToken());
+        movie.setYear(Integer.valueOf(token.nextToken()));
         movie.setRating(Double.valueOf(token.nextToken()));
         movie.setVotes(Long.valueOf(token.nextToken()));
         return movie;
+
     }
 }
