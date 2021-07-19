@@ -1,23 +1,17 @@
 package br.com.letscode.java.moviebattleapi.movie;
 
-import br.com.letscode.java.moviebattleapi.imdbclient.ImdbScraper;
-import br.com.letscode.java.moviebattleapi.imdbclient.MovieDTO;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -25,12 +19,12 @@ import java.util.stream.Collectors;
 @Repository
 public class MovieRestRepository {
 
-    private Path movie;
+    private Path moviePath;
 
-    @PostConstruct
+
     public void init() {
         final String pathMovie = ".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv";
-        this.movie = Paths.get(pathMovie);
+        this.moviePath = Paths.get(pathMovie);
     }
 
     public void inserirNoArquivo(List<Movie> movieDataList) {
@@ -63,7 +57,7 @@ public class MovieRestRepository {
 
     public List<Movie> getAll() throws IOException {
         List<Movie> movieList;
-        try (BufferedReader br = Files.newBufferedReader(this.movie)) {
+        try (BufferedReader br = Files.newBufferedReader(this.moviePath)) {
             movieList = br.lines().filter(String::isEmpty)
                     .map(this::converterLinhaEmFilme)
                     .collect(Collectors.toList());

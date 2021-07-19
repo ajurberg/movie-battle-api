@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 public class QuizService {
 
-
     QuizRestControler quizRestControler;
 
     public List createQuiz(){
