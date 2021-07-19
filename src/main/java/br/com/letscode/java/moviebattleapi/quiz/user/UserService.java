@@ -18,7 +18,6 @@ public class UserService {
     private final Criptografia cripto;
     private final UserRestRepository userRestRepository;
 
-
     public User criar(User user) {
         if (verificarRegrasDeUsuarioeSenha(user)) {
             user.setPassword(cripto.encode(user.getPassword()));

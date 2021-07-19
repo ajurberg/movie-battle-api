@@ -12,6 +12,7 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -23,36 +24,23 @@ public class MovieRestRepository {
 
 
     public void init() {
-        final String pathMovie = ".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv";
+        final String pathMovie = ".\\src\\main\\resources\\Filmes.csv";
         this.moviePath = Paths.get(pathMovie);
     }
 
     public void inserirNoArquivo(List<Movie> movieDataList) {
-        try {
-            File outFile = new File(".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv");
-            Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile, true), "utf-8"), 10240);
-            for (Movie value : movieDataList) {
-                out.write(value + "\r\n");
-            }
-            out.flush();
-            out.close();
+        try (BufferedWriter bf = Files.newBufferedWriter(moviePath, StandardOpenOption.APPEND)) {
+            bf.write(formatar(movieDataList));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    /**
-     * public Movie inserirNoArquivo(Movie filme) {
-     * try (BufferedWriter bf = Files.newBufferedWriter(movie, StandardOpenOption.APPEND)) {
-     * bf.write(formatar(filme));
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * }
-     * return filme;
-     * }
-     */
 
-    private String formatar(Movie movie) {
-        return String.format("%s;%f;%x\n", movie.getTitle(), movie.getRating(), movie.getVotes());
+    private String formatar(List<Movie> movieDataList) {
+        for (Movie movie : movieDataList) {
+            return String.format("%s;%f;%x\n", movie.getTitle(), movie.getRating(), movie.getVotes());
+        }
+        return null;
     }
 
     public List<Movie> getAll() throws IOException {
