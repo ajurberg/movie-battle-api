@@ -1,11 +1,13 @@
 package br.com.letscode.java.moviebattleapi.imdbclient;
 
+import br.com.letscode.java.moviebattleapi.movie.Movie;
 import br.com.letscode.java.moviebattleapi.movie.MovieService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -15,13 +17,13 @@ import java.util.ArrayList;
 @RestController
 public class ImdbScraper {
 
-    private ArrayList<MovieDTO> movieDataList;
     private MovieService movieService;
 
     public ImdbScraper() throws IOException {
         // empty
     }
 
+    @Autowired
     public ImdbScraper(MovieService movieService) throws IOException {
         this.movieService = movieService;
     }
@@ -31,8 +33,8 @@ public class ImdbScraper {
             .timeout(6000)
             .get();
 
-    // TODO we need to save as csv file or similar
-    public ArrayList<MovieDTO> ImdbScraper() {
+    private ArrayList<Movie> scraping() {
+        ArrayList<Movie> movieDataList = new ArrayList<Movie>();
         Elements body = document.select("div.lister-list");
         for (Element row : body.select("div.lister-item-content")) {
             final String imdbId = row.select("h3.lister-item-header span").get(0).text().replaceAll("[\\.]", "");
@@ -42,12 +44,13 @@ public class ImdbScraper {
             final Double rating = Double.parseDouble(row.select("div.ratings-bar strong").text());
             final Long votes = Long.parseLong(row.select("p.sort-num_votes-visible span").get(1).text().replaceAll(",", ""));
 
-            movieDataList.add((MovieDTO) new MovieDTO(imdbId, title, year, rating, votes));
+            movieDataList.add(new Movie(imdbId, title, year, rating, votes));
         }
         return movieDataList;
     }
 
-    public ArrayList<MovieDTO> criar(ArrayList<MovieDTO> movieDataList) throws IOException {
+    public ArrayList<Movie> criar() throws IOException {
+        ArrayList<Movie> movieDataList = scraping();
         movieService.criar(movieDataList);
         return movieDataList;
     }

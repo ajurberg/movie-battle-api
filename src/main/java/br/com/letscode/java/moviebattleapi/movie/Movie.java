@@ -9,16 +9,23 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class Movie {
 
+    private String imdbId;
     private String title;
     private Integer year;
-    private String imdbId;
-    private String type;
+    //private String genre;
     private Double rating;
     private Long votes;
 
+
+    public Movie(String imdbId, String title, Integer year, Double rating, Long votes) {
+        this.imdbId = imdbId;
+        this.title = title;
+        this.year = year;
+        this.rating = rating;
+        this.votes = votes;
+    }
 
 }

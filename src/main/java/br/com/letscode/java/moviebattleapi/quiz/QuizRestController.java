@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @RestController
-public class QuizRestControler {
+public class QuizRestController {
 
     private QuizService quizService;
 
