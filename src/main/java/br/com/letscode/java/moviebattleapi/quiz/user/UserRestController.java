@@ -9,25 +9,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @RequestMapping("/users")
 @RestController
 public class UserRestController {
 
+
     private final UserService userService;
-    private final Criptografia cripto;
-    
-  
+
+
+    public UserRestController(UserService userService) {
+        this.userService = userService;
+    }
+
+
+
+
     @PostMapping
     public User criar(@RequestBody User user){
 
-       user.setPassword(cripto.encode(user.getPassword().toString()));
        
 	   //TODO Criar log INFO
-	   userService.criar(user)
-       
-	   return user;
+
+
+          return userService.criar(user);
        
    
     }
