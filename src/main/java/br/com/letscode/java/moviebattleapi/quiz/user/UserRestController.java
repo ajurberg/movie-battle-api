@@ -14,28 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserRestController {
 
-
     private final UserService userService;
-
 
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
 
-
-
-
     @PostMapping
-    public User criar(@RequestBody User user){
-
-       
-	   //TODO Criar log INFO
-
-
-          return userService.criar(user);
-       
-   
+    public User criar(@RequestBody User user) {
+        //TODO Criar log INFO
+        return userService.criar(user);
     }
 
-   
+
 }

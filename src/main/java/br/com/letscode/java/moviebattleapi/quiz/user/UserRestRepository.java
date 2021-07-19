@@ -41,7 +41,6 @@ public class UserRestRepository {
 
     private String formatar(User usuario) {
         return String.format("%s;%s;\n", usuario.getUserId(), usuario.getPassword());
-
         //todo colocar as vidas do jogador
 //        return String.format("%s;%s;%d;\n", usuario.getUserId(), usuario.getPassword(), usuario.getLife);
     }
@@ -66,13 +65,13 @@ public class UserRestRepository {
 
     public boolean autenticarUsuario(User id, User senha) throws IOException {
         List<User> users = getAll();
-
         Optional<User> idUser = users.stream()
                 .filter(clienteSearch -> clienteSearch.getUserId().equals(id)).findFirst();
-
         Optional<User> senhaUser = users.stream()
                 .filter(clienteSearch -> clienteSearch.getPassword().equals(senha)).findFirst();
-
+        // FIXME
+        // Condition 'idUser.isPresent()' is always 'false'
+        // Condition 'idUser.isPresent() && senhaUser.isPresent()' is always 'false'
         if (idUser.isPresent() && senhaUser.isPresent()) {
             return true;
         } else {

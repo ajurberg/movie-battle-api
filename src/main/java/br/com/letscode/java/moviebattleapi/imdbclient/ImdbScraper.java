@@ -6,27 +6,30 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 @Slf4j
-@Controller
+@RestController
 public class ImdbScraper {
 
     private ArrayList<MovieDTO> movieDataList;
-    private final MovieService movieService;
+    private MovieService movieService;
+
+    public ImdbScraper() throws IOException {
+        // empty
+    }
 
     public ImdbScraper(MovieService movieService) throws IOException {
         this.movieService = movieService;
     }
 
+
     final Document document = Jsoup.connect("https://www.imdb.com/search/title/?groups=top_250&sort=user_rating,desc&view=advanced")
             .timeout(6000)
             .get();
-
 
     // TODO we need to save as csv file or similar
     public ArrayList<MovieDTO> ImdbScraper() {
@@ -44,7 +47,8 @@ public class ImdbScraper {
         return movieDataList;
     }
 
-    public ArrayList<MovieDTO> criar(ArrayList<MovieDTO> movieDataList) {
-        return movieService.criar(movieDataList);
+    public ArrayList<MovieDTO> criar(ArrayList<MovieDTO> movieDataList) throws IOException {
+        movieService.criar(movieDataList);
+        return movieDataList;
     }
 }
