@@ -31,20 +31,17 @@ public class MovieRestRepository {
         this.movie = Paths.get(pathMovie);
     }
 
-    public void inserirNoArquivo(ArrayList<Movie> imdbScraper) {
-        ArrayList<Movie> movieDataList = new ArrayList<Movie>();
+    public void inserirNoArquivo(List<Movie> movieDataList) {
         try {
             File outFile = new File(".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile, true), "utf-8"), 10240);
-            for (int i = 0; i < movieDataList.size(); i++) {
-                out.write(movieDataList.get(i) + "\r\n");
+            for (Movie value : movieDataList) {
+                out.write(value + "\r\n");
             }
             out.flush();
             out.close();
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
         }
     }
 

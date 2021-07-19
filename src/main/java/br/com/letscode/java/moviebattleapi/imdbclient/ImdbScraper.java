@@ -31,7 +31,6 @@ public class ImdbScraper {
             .timeout(6000)
             .get();
 
-    // TODO we need to save as csv file or similar
     private ArrayList<Movie> scraping() {
         ArrayList<Movie> movieDataList = new ArrayList<Movie>();
         Elements body = document.select("div.lister-list");
@@ -48,7 +47,8 @@ public class ImdbScraper {
         return movieDataList;
     }
 
-    public ArrayList<Movie> criar(ArrayList<Movie> movieDataList) throws IOException {
+    public ArrayList<Movie> criar() throws IOException {
+        ArrayList<Movie> movieDataList = scraping();
         movieService.criar(movieDataList);
         return movieDataList;
     }
