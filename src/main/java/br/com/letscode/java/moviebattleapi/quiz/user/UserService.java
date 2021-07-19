@@ -1,36 +1,56 @@
 package br.com.letscode.java.moviebattleapi.quiz.user;
 
+import br.com.letscode.java.moviebattleapi.security.Criptografia;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
+@Component
+@AllArgsConstructor
 public class UserService {
 
+    private final Criptografia cripto;
+    private final UserRestRepository userRestRepository;
 
-
-    public User criar(User user){
-
-
-        return user;
+    public User criar(User user) {
+        if (verificarRegrasDeUsuarioeSenha(user)) {
+            user.setPassword(cripto.encode(user.getPassword()));
+            userRestRepository.inserirNoArquivo(user);
+            return user;
+        } else {
+            return null;
+        }
     }
 
-//    private Boolean verificarRegrasDeUsuarioeSenha(User user){
-//        if(user.getUserId().length() <5 || user.getUserId().length() >10 ||
-//                user.getPassword().length() < 4 || user.getPassword().length()>8){
-//            return false;
-//        } else if ( //TODO verificar caracteres especiais e espaços usar matcher? ou contains?
-//        ) {
-//            return false;
-//
-//        }else {
-//            return true;
-//        }
+    private Boolean verificarRegrasDeUsuarioeSenha(User user) {
+        if (user.getUserId().length() < 5 || user.getUserId().length() > 10 ||
+                user.getPassword().length() < 4 || user.getPassword().length() > 8) {
+            return false;
+        } else {
+            // Verifica caracteres especiais
+            Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
+            Matcher userMatcher = pattern.matcher(user.getUserId());
+            boolean isUserMatcher = userMatcher.find();
+            Matcher passwordMatcher = pattern.matcher(user.getPassword());
+            boolean isPasswordMatcher = passwordMatcher.find();
+            if (isUserMatcher || isPasswordMatcher) {
+                //System.out.println("A string possui caracteres especiais"); // TODO Log
+                return false;
+            } else {
+                //System.out.println("A string não possui caracteres especiais"); // TODO Log
+                return true;
+            }
+          }
+        }
 
     }
-    //o nome de usuario deve possuir de 5-10 caracteres
-    //a senha deve possuir de 4-8 caracteres
-    //ambos nao podem possuir caracteres especiais ou espaços
-    //se nao atender aos requisitos, retornar erro
-    //se atender, verificar se o nome de usuario já existe
-    //se existir, enviar erro
-    //se nao criar usuario.
+
+
+
 
