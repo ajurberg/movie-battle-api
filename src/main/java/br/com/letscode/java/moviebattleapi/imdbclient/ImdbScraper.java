@@ -33,7 +33,7 @@ public class ImdbScraper {
             .timeout(6000)
             .get();
 
-    private ArrayList<Movie> scraping() {
+    public ArrayList<Movie> scraping() {
         ArrayList<Movie> movieDataList = new ArrayList<Movie>();
         Elements body = document.select("div.lister-list");
         for (Element row : body.select("div.lister-item-content")) {

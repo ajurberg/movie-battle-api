@@ -1,11 +1,13 @@
 package br.com.letscode.java.moviebattleapi.quiz;
 
 import br.com.letscode.java.moviebattleapi.imdbclient.ImdbScraper;
+import br.com.letscode.java.moviebattleapi.movie.Movie;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -14,24 +16,35 @@ import java.util.Random;
 @Service
 public class QuizService {
 
-    QuizRestController quizRestController;
+    private QuizRestController quizRestController;
+    private ImdbScraper imdbScraper;
 
     public List createQuiz() throws IOException {
-        ImdbScraper movieList = new ImdbScraper();
+        // TODO
+        return null;
+    }
+
+    public static List pickTwoMovies() throws IOException {
+        ImdbScraper imdbScraper = new ImdbScraper();
+        List<Movie> movieList = imdbScraper.scraping();
+        // Verificar se a lista de filmes existe, senão retornar erro
         if ( null == movieList) {
-            // TODO
-
+            // TODO log
         } else {
-            int numb1 = getRandomNumberUsingNextInt(1, 51);
-
-            int numb2 = getRandomNumberUsingNextInt(1, 51);
+            // Se existir, pegar dois filmes aleatórios da lista, sem repetição
+            // (remove o primeiro escolhido para então escolher o segundo)
+            List<Movie> moviePair = new ArrayList<>();
+            Random random = new Random();
+            int index1 = getRandomNumberUsingNextInt(1, movieList.size());
+            Movie movie1 = movieList.get(index1);
+            moviePair.add(movie1);
+            movieList.remove(index1);
+            int index2 = getRandomNumberUsingNextInt(1, movieList.size());
+            Movie movie2 = movieList.get(index2);
+            moviePair.add(movie2);
+            return moviePair;
         }
-        //verificar se a lista de filmes existe, senao retornar erro
-        //se existir voltar dois filmes em lista
-        //como verificar a questao já passada para um user sem fazer login?
-        //usar uma lista grande (50 criada por Arnon) e ir removendo? mas e hr que acabar?
-
-        return null; //acertar o null
+        return null;
     }
 
 
