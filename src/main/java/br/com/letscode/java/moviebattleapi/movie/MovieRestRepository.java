@@ -31,8 +31,8 @@ public class MovieRestRepository {
         this.movie = Paths.get(pathMovie);
     }
 
-    public void inserirNoArquivo(ArrayList<MovieDTO> imdbScraper) {
-        ArrayList<MovieDTO> movieDataList = new ArrayList<MovieDTO>();
+    public void inserirNoArquivo(ArrayList<Movie> imdbScraper) {
+        ArrayList<Movie> movieDataList = new ArrayList<Movie>();
         try {
             File outFile = new File(".\\movie-battle-api\\src\\main\\java\\br\\com\\letscode\\java\\moviebattleapi\\dados\\filmes\\Filmes.csv");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile, true), "utf-8"), 10240);

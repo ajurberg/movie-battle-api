@@ -16,7 +16,7 @@ public class MovieService {
 
     private final MovieRestRepository movieRestRepository;
 
-    public ArrayList<MovieDTO> criar(ArrayList<MovieDTO> movieDataList) throws IOException {
+    public ArrayList<Movie> criar(ArrayList<Movie> movieDataList) throws IOException {
         // The return type of this method should be an interface such as "List" rather than the implementation "ArrayList".
         ImdbScraper imdbScraper = new ImdbScraper();
         if (null == movieDataList) {
