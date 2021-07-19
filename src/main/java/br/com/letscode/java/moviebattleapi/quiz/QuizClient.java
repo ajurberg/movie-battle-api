@@ -14,9 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 public class QuizClient {
 
-    private User user;
-    private Integer answer;
+    private String userIdQuiz;
     private Integer score;
     private Integer move;
+    private Integer lifes;
+
+
 
 }
