@@ -19,4 +19,6 @@ public class QuizClient {
     private Integer score;
     private Integer move;
 
+
+
 }

@@ -27,6 +27,8 @@ public class QuizRestControler {
         //trocar o return para uma lista quando acertar o restante
     }
 
+    public Quiz
+
 
 
     //get
