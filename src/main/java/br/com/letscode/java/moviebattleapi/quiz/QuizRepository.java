@@ -23,18 +23,16 @@ public class QuizRepository {
 
     private Path quizPathTemp;
     final String quizPath = ".\\src\\main\\resources\\quiztemp.csv";
-
+    final String jogosPath = ".\\src\\main\\resources\\jogos.csv";
 
     public List gravarArquivoTemporario(List<Movie> moviePair) {
 
         this.quizPathTemp = Paths.get(quizPath);
         try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.TRUNCATE_EXISTING)) {
-
             List<String> linhas = formatar(moviePair);
             for (String linha : linhas) {
                 bf.write(linha);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,15 +47,10 @@ public class QuizRepository {
              linhas.add(linha);
 
         }
-
         return linhas;
-
     }
 
-
     public List carregarMovieDTO() throws IOException {
-
-
         List<MovieDTO> movieDTOList = new ArrayList<>();
         this.quizPathTemp = Paths.get(quizPath);
         Reader leitor = Files.newBufferedReader(this.quizPathTemp);
@@ -72,12 +65,30 @@ public class QuizRepository {
                 movieDTO.setYear(Integer.valueOf(token.nextToken()));
                 String ignore = token.nextToken();
                 String ignore2 = token.nextToken();
-
                 movieDTOList.add(movieDTO);
             }
         }
-
         return movieDTOList;
+    }
+
+    public QuizClient verifyJogosCsv(User user) {
+
+        //metodo para escrever no arquivo se nao existir jogo ativo
+        QuizClient quizClient = new QuizClient();
+        quizClient.setUserIdQuiz(user.getUserId());
+        quizClient.setTotalOfMoves(0);
+        quizClient.setScore(0);
+        quizClient.setLife(3);
+
+        this.quizPathTemp = Paths.get(jogosPath);
+        try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.APPEND)) {
+            String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(),quizClient.getScore(),quizClient.getTotalOfMoves(),quizClient.getLife());
+
+                bf.write(quizClientString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return quizClient;
     }
 }
     //deve criar o arquivo jogos.csv

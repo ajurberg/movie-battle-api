@@ -16,7 +16,7 @@ public class QuizClient {
 
     private String userIdQuiz;
     private Integer score;
-    private Integer move;
+    private Integer totalOfMoves;
     private Integer life;
 
 }

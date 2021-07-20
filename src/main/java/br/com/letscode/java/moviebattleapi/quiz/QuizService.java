@@ -7,6 +7,7 @@ import br.com.letscode.java.moviebattleapi.quiz.user.UserRestRepository;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.ToString;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,25 +25,6 @@ public class QuizService {
     private final UserService userService;
     private final QuizRepository quizRepository;
 
-    // TODO
-    // createGame()
-
-    // TODO
-    public List createQuiz() throws IOException {
-        List<Movie> moviePair = new ArrayList<>();
-        // 1- Pegar 2 Filmes - OK
-        pickTwoMovies();
-        // 2- Apresentar as duas opções
-        // TODO Get
-        // 3- Aguardar a escolha do usuário
-        // TODO Post
-        // 4- Comparar os dois filmes - OK
-        //compareTwoMoviesByScore(moviePair);
-        // 5- Avaliar se resposta do usuário está correta. Se sim, count+1
-        // Se não, life-1 (while life !=0)
-        //checkUserAnswer(); // TODO
-        return moviePair;
-    }
 
     public List pickTwoMovies() throws IOException {
         ImdbScraper imdbScraper = new ImdbScraper();
@@ -68,12 +50,60 @@ public class QuizService {
         return null;
     }
 
+    @SneakyThrows
+    public void verifyAnswer(QuizClientAnswer quizClientAnswer) {
+        User user = new User();
+        user.setUserId(quizClientAnswer.getUserIdQuiz());
+        user.setPassword(quizClientAnswer.getPassword());
+        //verificando usuario e senha
+     // if (login(user)){
+           //verificando se tem jogo ativo, se tiver carregar quizCliente, senao fazer um novo iniciando com 3 vidas
+           quizRepository.verifyJogosCsv(user);
+           //verificar se reposta esta correta
+           //alterar situação atual em jogoscsv (vida, pontuacao e tentativa)
+           //se vida <0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
+
+      // };
+
+
+    }
+
     public static int getRandomNumberUsingNextInt(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min) + min;
     }
 
-//    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
+    public Boolean login(@RequestBody User user) throws IOException {
+        this.userRestRepository.carregarJogadores();
+        if (this.userService.verificaUsuario(user)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // TODO
+    // createGame()
+
+
+    // TODO
+    public List createQuiz() throws IOException {
+        List<Movie> moviePair = new ArrayList<>();
+        // 1- Pegar 2 Filmes - OK
+        pickTwoMovies();
+        // 2- Apresentar as duas opções
+        // TODO Get
+        // 3- Aguardar a escolha do usuário
+        // TODO Post
+        // 4- Comparar os dois filmes - OK
+        //compareTwoMoviesByScore(moviePair);
+        // 5- Avaliar se resposta do usuário está correta. Se sim, count+1
+        // Se não, life-1 (while life !=0)
+        //checkUserAnswer(); // TODO
+        return moviePair;
+    }
+
+    //    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
 //        if (null == moviePair) {
 //            // TODO log
 //        } else {
@@ -88,28 +118,6 @@ public class QuizService {
 //        return null;
 //    }
 
-    // 5- Avaliar se resposta do usuário está correta.
-    // Se sim, count+1; Se não, life-1
-    public static Movie checkUserAnswer(Movie movie) {
 
-        return movie;
-    }
 
-    public String login(@RequestBody User user) throws IOException {
-        this.userRestRepository.carregarJogadores();
-        if (this.userService.verificaUsuario(user)) {
-            return "Login realizado com sucesso";
-        } else {
-            return "usuário ou senha incorretos";
-        }
-    }
-
-    //usuario e senha errado retornar erro
-    //se o usuario e senha ok, verifica se tem jogo ativo em jogos.csv
-    //se nao tiver jogo ativo, criar um jogo com 3 vidas
-    // verifica se a resposta está correta
-    //se o id for invalido ( nao corresponder a nenhum filme) retornar um erro
-    //se se correta adicionar pontuação , se errada diminuir vida
-    //se vidas < 0 finalizar o jogo, excluir jogo atual de jogos.csv e adicionar
-    //os dados ao ranking de forma ordenada
 }
