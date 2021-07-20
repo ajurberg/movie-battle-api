@@ -16,5 +16,4 @@ public class MovieDTO {
     private String title;
     private Integer year;
 
-
 }

@@ -63,7 +63,7 @@ public class QuizService {
             Movie movie2 = movieList.get(index2);
             moviePair.add(movie2);
             quizRepository.gravarArquivoTemporario(moviePair);
-            return moviePair;
+            return quizRepository.carregarMovieDTO();
         }
         return null;
     }
