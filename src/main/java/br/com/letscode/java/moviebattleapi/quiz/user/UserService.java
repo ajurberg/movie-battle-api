@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,9 +50,9 @@ public class UserService {
         }
     }
 
-    public boolean verificaUsuario(User usuario) {
+    public boolean verificaUsuario(User usuario) throws IOException {
         usuario.setPassword(cripto.encode(usuario.getPassword()));
-        for (User user : this.userRestRepository.userList) {
+        for (User user : userRestRepository.carregarJogadores()) {
             if (usuario.getUserId().equals(user.getUserId())
                     && usuario.getPassword().equals(user.getPassword())) {
                 return true;

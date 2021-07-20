@@ -56,14 +56,14 @@ public class QuizService {
         user.setUserId(quizClientAnswer.getUserIdQuiz());
         user.setPassword(quizClientAnswer.getPassword());
         //verificando usuario e senha
-     // if (login(user)){
+        if (login(user)){
            //verificando se tem jogo ativo, se tiver carregar quizCliente, senao fazer um novo iniciando com 3 vidas
            quizRepository.verifyJogosCsv(user);
            //verificar se reposta esta correta
            //alterar situação atual em jogoscsv (vida, pontuacao e tentativa)
            //se vida <0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
 
-      // };
+       };
 
 
     }
@@ -73,8 +73,8 @@ public class QuizService {
         return random.nextInt(max - min) + min;
     }
 
-    public Boolean login(@RequestBody User user) throws IOException {
-        this.userRestRepository.carregarJogadores();
+    public Boolean login(User user) throws IOException {
+
         if (this.userService.verificaUsuario(user)) {
             return true;
         } else {

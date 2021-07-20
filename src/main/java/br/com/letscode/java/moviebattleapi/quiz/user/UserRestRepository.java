@@ -67,7 +67,7 @@ public class UserRestRepository {
         return usuario;
     }
 
-    public void carregarJogadores() throws IOException {
+    public List<User> carregarJogadores() throws IOException {
         this.userList = new ArrayList<>();
         Reader leitor = Files.newBufferedReader(this.userPath);
         CSVReader csvReader = new CSVReader(leitor);
@@ -81,6 +81,6 @@ public class UserRestRepository {
                 this.userList.add(user);
             }
         }
-
+        return this.userList;
     }
 }
