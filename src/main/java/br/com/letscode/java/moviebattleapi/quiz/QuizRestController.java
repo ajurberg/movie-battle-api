@@ -23,8 +23,7 @@ public class QuizRestController {
    @GetMapping
     public List createQuiz() throws IOException {
 
-
-        return quizService.pickTwoMovies();
+        return null; //quizService.pickTwoMovies()
 
     }
 

@@ -17,16 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
 @Repository
 public class QuizRepository {
 
     private Path quizPathTemp;
     final String quizPath = ".\\src\\main\\resources\\quiztemp.csv";
 
-
     public List gravarArquivoTemporario(List<Movie> moviePair) {
-
         this.quizPathTemp = Paths.get(quizPath);
         try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.TRUNCATE_EXISTING)) {
 
@@ -34,13 +31,6 @@ public class QuizRepository {
             for (String linha : linhas) {
                 bf.write(linha);
             }
-
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,23 +38,15 @@ public class QuizRepository {
     }
 
     private List formatar(List<Movie> moviePair) {
-
-
         List<String> linhas = new ArrayList<>();
         for (Movie m : moviePair) {
              String linha = String.format("%s;%s;%s;%s;%s;%s;\n", m.getImdbId(), m.getTitle(), m.getYear(), m.getRating(), m.getVotes(), m.getScore());
              linhas.add(linha);
-
         }
-
         return linhas;
-
     }
 
-
     public List carregarMovieDTO() throws IOException {
-
-
         List<MovieDTO> movieDTOList = new ArrayList<>();
         this.quizPathTemp = Paths.get(quizPath);
         Reader leitor = Files.newBufferedReader(this.quizPathTemp);
@@ -80,7 +62,6 @@ public class QuizRepository {
                 movieDTOList.add(movieDTO);
             }
         }
-
         return movieDTOList;
     }
 }

@@ -6,8 +6,6 @@ import br.com.letscode.java.moviebattleapi.quiz.user.User;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserRestRepository;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -24,29 +22,44 @@ public class QuizService {
     private final UserService userService;
     private final QuizRepository quizRepository;
 
-    // TODO
-    // createGame()
+    private User user; // TODO Avaliar se temos que manter aqui
+
+    // TODO - CREATE GAME - TALVEZ SEJA NECESSÁRIO MUDAR DE LUGAR -> criar GameService?
+    public void init() throws IOException {
+        // 1- Checar as credencias do usuário
+        // TODO
+        // 2- Criar a lista de filmes - OK
+        ImdbScraper imdbScraper = new ImdbScraper();
+        List<Movie> movieList = imdbScraper.scraping();
+        // 3- Iniciar o quiz
+        while (user.getLife() != 0) {
+            newQuiz(movieList);
+        } if (user.getLife() == 0) {
+            // TODO GAMEOVER
+            // escrever no ranking
+            // exibir o ranking
+            // system.out
+        }
+    }
 
     // TODO
-    public List createQuiz() throws IOException {
+    public void newQuiz(List<Movie> movieList) throws IOException {
         List<Movie> moviePair = new ArrayList<>();
         // 1- Pegar 2 Filmes - OK
-        pickTwoMovies();
+        pickTwoMovies(movieList);
         // 2- Apresentar as duas opções
         // TODO Get
         // 3- Aguardar a escolha do usuário
-        // TODO Post
+        // TODO Post - retorna userMovie
+        Movie userMovie = new Movie();// FIXME incluir aqui a resposta do usuário
         // 4- Comparar os dois filmes - OK
-        //compareTwoMoviesByScore(moviePair);
+        Movie winnerMovie = compareTwoMoviesByScore(moviePair);
         // 5- Avaliar se resposta do usuário está correta. Se sim, count+1
         // Se não, life-1 (while life !=0)
-        //checkUserAnswer(); // TODO
-        return moviePair;
+        checkUserAnswer(userMovie, winnerMovie); // TODO
     }
 
-    public List pickTwoMovies() throws IOException {
-        ImdbScraper imdbScraper = new ImdbScraper();
-        List<Movie> movieList = imdbScraper.scraping();
+    public List pickTwoMovies(List<Movie> movieList) throws IOException {
         // Verificar se a lista de filmes existe, senão retornar erro
         if (null == movieList) {
             // TODO log
@@ -73,26 +86,29 @@ public class QuizService {
         return random.nextInt(max - min) + min;
     }
 
-//    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
-//        if (null == moviePair) {
-//            // TODO log
-//        } else {
-//            Double score1 = moviePair.get(0).getScore();
-//            Double score2 = moviePair.get(1).getScore();
-//            if (score1 < score2) {
-//                return moviePair.get(1);
-//            } else {
-//                return moviePair.get(0);
-//            }
-//        }
-//        return null;
-//    }
+    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
+        if (null == moviePair) {
+            // TODO log
+        } else {
+            Double score1 = moviePair.get(0).getScore();
+            Double score2 = moviePair.get(1).getScore();
+            if (score1 < score2) {
+                return moviePair.get(1);
+            } else {
+                return moviePair.get(0);
+            }
+        }
+        return null;
+    }
 
     // 5- Avaliar se resposta do usuário está correta.
-    // Se sim, count+1; Se não, life-1
-    public static Movie checkUserAnswer(Movie movie) {
-
-        return movie;
+    // Se sim, score+1; Se não, life-1
+    public void checkUserAnswer(Movie userMovie, Movie winnerMovie) {
+        if (userMovie.equals(winnerMovie)) {
+            user.setScore(user.getScore() + 1);
+        } else {
+            user.setLife(user.getLife() - 1);
+        }
     }
 
     public String login(@RequestBody User user) throws IOException {

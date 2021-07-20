@@ -17,6 +17,7 @@ public class RankingRestController {
     @GetMapping
     public List viewRanking(){
         List<QuizClient> rankingList = new ArrayList<>();
+
         QuizClient quizClient = new QuizClient();
         quizClient.setScore(30);
         quizClient.setMove(20);

@@ -12,8 +12,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class User {
 
-
     private String userId;
     private String password;
+    private Integer life = 3;
+    private Integer score = 0;
 
 }
