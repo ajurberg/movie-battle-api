@@ -61,7 +61,7 @@ public class MovieRestRepository {
         movie.setTitle(token.nextToken());
         movie.setYear(Integer.valueOf(token.nextToken()));
         movie.setRating(Double.valueOf(token.nextToken()));
-        movie.setVotes(Long.valueOf(token.nextToken()));
+        movie.setVotes(Double.valueOf(token.nextToken()));
         return movie;
 
     }

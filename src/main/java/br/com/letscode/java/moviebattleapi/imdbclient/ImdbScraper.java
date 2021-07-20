@@ -42,9 +42,10 @@ public class ImdbScraper {
             final Integer year = Integer.parseInt(row.select("h3.lister-item-header span").get(1).text().replaceAll("[^\\d]", ""));
             //final String genre = row.select("p.text-muted span").get(4).text();
             final Double rating = Double.parseDouble(row.select("div.ratings-bar strong").text());
-            final Long votes = Long.parseLong(row.select("p.sort-num_votes-visible span").get(1).text().replaceAll(",", ""));
+            final Double votes = Double.parseDouble(row.select("p.sort-num_votes-visible span").get(1).text().replaceAll(",", ""));
+            final Double score = votes * rating;
 
-            movieDataList.add(new Movie(imdbId, title, year, rating, votes));
+            movieDataList.add(new Movie(imdbId, title, year, rating, votes, score));
         }
         return movieDataList;
     }

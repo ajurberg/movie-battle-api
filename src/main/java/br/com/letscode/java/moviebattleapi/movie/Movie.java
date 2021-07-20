@@ -1,6 +1,5 @@
 package br.com.letscode.java.moviebattleapi.movie;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,16 +16,18 @@ public class Movie {
     private Integer year;
     //private String genre;
     private Double rating;
-    private Long votes;
-    //private Double score = rating * votes;
+    private Double votes;
+    private Double score;
 
 
-    public Movie(String imdbId, String title, Integer year, Double rating, Long votes) {
+    public Movie(String imdbId, String title, Integer year, Double rating, Double votes, Double score) {
         this.imdbId = imdbId;
         this.title = title;
         this.year = year;
         this.rating = rating;
         this.votes = votes;
+        this.score = score;
+
     }
 
 }
