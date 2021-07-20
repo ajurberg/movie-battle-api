@@ -17,13 +17,12 @@ import java.util.List;
 import java.util.Random;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Service
 public class QuizService {
 
-    private UserRestRepository userRestRepository;
-    private UserService userService;
-    private QuizRepository quizRepository;
+    private final UserRestRepository userRestRepository;
+    private final UserService userService;
+    private final QuizRepository quizRepository;
 
     // TODO
     // createGame()
@@ -63,7 +62,7 @@ public class QuizService {
             int index2 = getRandomNumberUsingNextInt(1, movieList.size());
             Movie movie2 = movieList.get(index2);
             moviePair.add(movie2);
-         //   quizRepository.gravarArquivoTemporario(moviePair);
+            quizRepository.gravarArquivoTemporario(moviePair);
             return moviePair;
         }
         return null;
