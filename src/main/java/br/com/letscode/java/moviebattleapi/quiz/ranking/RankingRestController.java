@@ -20,14 +20,14 @@ public class RankingRestController {
         QuizClient quizClient = new QuizClient();
         quizClient.setScore(30);
         quizClient.setMove(20);
-        quizClient.setLifes(0);
+        quizClient.setLife(0);
         quizClient.setUserIdQuiz("Desi");
 
         QuizClient quizClient1 = new QuizClient();
         quizClient1.setUserIdQuiz("Gabriel");
         quizClient1.setScore(20);
         quizClient1.setMove(30);
-        quizClient.setLifes(0);
+        quizClient.setLife(0);
 
         rankingList.add(quizClient);
         rankingList.add(quizClient1);

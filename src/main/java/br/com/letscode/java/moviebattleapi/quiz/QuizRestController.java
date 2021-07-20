@@ -31,9 +31,8 @@ public class QuizRestController {
         //trocar o return para uma lista quando acertar o restante
     }
 
-    @PostMapping
+   @PostMapping
     public QuizClient receiveAnswer(@RequestBody QuizClientAnswer quizClientAnswer){
-
        QuizClient quizClient = new QuizClient();
        quizClient.setUserIdQuiz(quizClientAnswer.getUserIdQuiz());
        //TODO fazer o metodo abaixo em service

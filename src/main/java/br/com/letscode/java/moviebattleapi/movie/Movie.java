@@ -18,6 +18,7 @@ public class Movie {
     //private String genre;
     private Double rating;
     private Long votes;
+    private Double score = rating * votes;
 
 
     public Movie(String imdbId, String title, Integer year, Double rating, Long votes) {
