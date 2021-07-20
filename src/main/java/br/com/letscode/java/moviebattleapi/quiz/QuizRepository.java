@@ -35,12 +35,6 @@ public class QuizRepository {
                 bf.write(linha);
             }
 
-
-
-
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,7 +42,6 @@ public class QuizRepository {
     }
 
     private List formatar(List<Movie> moviePair) {
-
 
         List<String> linhas = new ArrayList<>();
         for (Movie m : moviePair) {
@@ -77,6 +70,9 @@ public class QuizRepository {
                 movieDTO.setImdbId(token.nextToken());
                 movieDTO.setTitle(token.nextToken());
                 movieDTO.setYear(Integer.valueOf(token.nextToken()));
+                String ignore = token.nextToken();
+                String ignore2 = token.nextToken();
+
                 movieDTOList.add(movieDTO);
             }
         }
