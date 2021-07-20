@@ -28,7 +28,7 @@ public class QuizRepository {
     public List gravarArquivoTemporario(List<Movie> moviePair) {
 
         this.quizPathTemp = Paths.get(quizPath);
-        try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.CREATE)) {
+        try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.TRUNCATE_EXISTING)) {
 
             List<String> linhas = formatar(moviePair);
             for (String linha : linhas) {
