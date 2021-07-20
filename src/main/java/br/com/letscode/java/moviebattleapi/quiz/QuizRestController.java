@@ -10,25 +10,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("/quiz")
 @AllArgsConstructor
-@NoArgsConstructor
 @RestController
 public class QuizRestController {
 
-    private QuizService quizService;
+    private final QuizService quizService;
 
    @GetMapping
-    public QuizClient createQuiz(){
-       // quizService.createQuiz();
-       //codigo abaixo apenas para teste no postman
-        QuizClient quizClient = new QuizClient();
-        quizClient.setScore(50);
+    public List createQuiz() throws IOException {
 
-        return quizClient;
-        //trocar o return para uma lista quando acertar o restante
+
+        return quizService.pickTwoMovies();
+
     }
 
    @PostMapping

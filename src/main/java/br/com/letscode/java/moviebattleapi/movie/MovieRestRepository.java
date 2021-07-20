@@ -2,6 +2,7 @@ package br.com.letscode.java.moviebattleapi.movie;
 
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,7 +23,7 @@ public class MovieRestRepository {
 
     private Path moviePath;
 
-
+@PostConstruct
     public void init() {
         final String pathMovie = ".\\src\\main\\resources\\Filmes.csv";
         this.moviePath = Paths.get(pathMovie);
