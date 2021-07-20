@@ -6,11 +6,8 @@ import br.com.letscode.java.moviebattleapi.quiz.user.User;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserRestRepository;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.ToString;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,11 +55,13 @@ public class QuizService {
         //verificando usuario e senha
         if (login(user)){
            //verificando se tem jogo ativo, se tiver carregar quizCliente, senao fazer um novo iniciando com 3 vidas
-           quizRepository.verifyJogosCsv(user);
+
+            QuizClient quizClient = quizRepository.verifyJogosCsv(user);
+         //   quizRepository.verifyAnswer(quizClient, quizClientAnswer);
            //verificar se reposta esta correta
            //alterar situação atual em jogoscsv (vida, pontuacao e tentativa)
            //se vida <0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
-
+            //TODO Fazer else para tratar as respostas negativas
        };
 
 
@@ -103,20 +102,20 @@ public class QuizService {
         return moviePair;
     }
 
-    //    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
-//        if (null == moviePair) {
-//            // TODO log
-//        } else {
-//            Double score1 = moviePair.get(0).getScore();
-//            Double score2 = moviePair.get(1).getScore();
-//            if (score1 < score2) {
-//                return moviePair.get(1);
-//            } else {
-//                return moviePair.get(0);
-//            }
-//        }
-//        return null;
-//    }
+        public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
+        if (null == moviePair) {
+            // TODO log
+        } else {
+            Double score1 = moviePair.get(0).getScore();
+            Double score2 = moviePair.get(1).getScore();
+            if (score1 < score2) {
+                return moviePair.get(1);
+            } else {
+                return moviePair.get(0);
+            }
+        }
+        return null;
+    }
 
 
 

@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -43,8 +44,8 @@ public class QuizRepository {
 
         List<String> linhas = new ArrayList<>();
         for (Movie m : moviePair) {
-             String linha = String.format("%s;%s;%s;%s;%s;%s;\n", m.getImdbId(), m.getTitle(), m.getYear(), m.getRating(), m.getVotes(), m.getScore());
-             linhas.add(linha);
+            String linha = String.format("%s;%s;%s;%s;%s;%s;\n", m.getImdbId(), m.getTitle(), m.getYear(), m.getRating(), m.getVotes(), m.getScore());
+            linhas.add(linha);
 
         }
         return linhas;
@@ -71,30 +72,74 @@ public class QuizRepository {
         return movieDTOList;
     }
 
-    public QuizClient verifyJogosCsv(User user) {
+
+    public QuizClient carregarJogos(User user) throws IOException {
+        // List<QuizClient> quizClientList = new ArrayList<>();
+        this.quizPathTemp = Paths.get(jogosPath);
+        Reader leitor = Files.newBufferedReader(this.quizPathTemp);
+        CSVReader csvReader = new CSVReader(leitor);
+        String[] linhaArq;
+
+        while ((linhaArq = csvReader.readNext()) != null) {
+            for (String s : linhaArq) {
+                if (s.contains(user.getUserId())) {
+                    QuizClient quizClient = new QuizClient();
+                    StringTokenizer token = new StringTokenizer(s, ";");
+                    quizClient.setUserIdQuiz(token.nextToken());
+                    quizClient.setScore(Integer.valueOf(token.nextToken()));
+                    quizClient.setTotalOfMoves(Integer.valueOf(token.nextToken()));
+                    quizClient.setLife(Integer.valueOf(token.nextToken()));
+                    return quizClient;
+                }
+
+            }
+        }
+        return null;
+    }
+
+
+    public QuizClient verifyJogosCsv(User user) throws IOException {
 
         //metodo para escrever no arquivo se nao existir jogo ativo
-        QuizClient quizClient = new QuizClient();
-        quizClient.setUserIdQuiz(user.getUserId());
-        quizClient.setTotalOfMoves(0);
-        quizClient.setScore(0);
-        quizClient.setLife(3);
+        QuizClient quizClient = carregarJogos(user);
 
-        this.quizPathTemp = Paths.get(jogosPath);
-        try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.APPEND)) {
-            String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(),quizClient.getScore(),quizClient.getTotalOfMoves(),quizClient.getLife());
+
+        if (quizClient != null) {
+
+            return quizClient;
+
+
+        } else {
+
+            quizClient = new QuizClient();
+            quizClient.setUserIdQuiz(user.getUserId());
+            quizClient.setTotalOfMoves(0);
+            quizClient.setScore(0);
+            quizClient.setLife(3);
+
+            this.quizPathTemp = Paths.get(jogosPath);
+            try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.APPEND)) {
+                String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(), quizClient.getScore(), quizClient.getTotalOfMoves(), quizClient.getLife());
 
                 bf.write(quizClientString);
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return quizClient;
         }
-        return quizClient;
+    }
+
+    public void verifyAnswer(QuizClient quizClient, QuizClientAnswer quizClientAnswer) {
+
+
+
+
     }
 }
-    //deve criar o arquivo jogos.csv
-    //o arquivo deve possuir em cada linha o nome do usuario, x/y
-    //sendo x = acertos e y, total, adicionaremos z
-    //z sendo a qtd de vidas
+//deve criar o arquivo jogos.csv
+//o arquivo deve possuir em cada linha o nome do usuario, x/y
+//sendo x = acertos e y, total, adicionaremos z
+//z sendo a qtd de vidas
 
 
 
