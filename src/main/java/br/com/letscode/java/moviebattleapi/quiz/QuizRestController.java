@@ -29,11 +29,11 @@ public class QuizRestController {
     }
 
    @PostMapping
-    public QuizClientAnswer receiveAnswer(@RequestBody QuizClientAnswer quizClientAnswer){
+    public QuizClient receiveAnswer(@RequestBody QuizClientAnswer quizClientAnswer){
 
        //TODO fazer o metodo abaixo em service
-        quizService.verifyAnswer(quizClientAnswer);
-       return quizClientAnswer;
+       return  quizService.verifyAnswer(quizClientAnswer);
+
     }
 
 

@@ -106,14 +106,18 @@ public class QuizRepository {
             quizClient.setTotalOfMoves(0);
             quizClient.setScore(0);
             quizClient.setLife(3);
-            this.quizPathTemp = Paths.get(jogosPath);
-            try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.APPEND)) {
-                String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(), quizClient.getScore(), quizClient.getTotalOfMoves(), quizClient.getLife());
-                bf.write(quizClientString);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            writeJogo(quizClient);
             return quizClient;
+        }
+    }
+
+    public void writeJogo(QuizClient quizClient) {
+        this.quizPathTemp = Paths.get(jogosPath);
+        try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.TRUNCATE_EXISTING)) {
+            String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(), quizClient.getScore(), quizClient.getTotalOfMoves(), quizClient.getLife());
+            bf.write(quizClientString);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

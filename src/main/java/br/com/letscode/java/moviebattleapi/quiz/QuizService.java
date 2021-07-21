@@ -48,7 +48,7 @@ public class QuizService {
     }
 
     @SneakyThrows
-    public void verifyAnswer(QuizClientAnswer quizClientAnswer) {
+    public QuizClient verifyAnswer(QuizClientAnswer quizClientAnswer) {
         User user = new User();
         user.setUserId(quizClientAnswer.getUserIdQuiz());
         user.setPassword(quizClientAnswer.getPassword());
@@ -58,21 +58,30 @@ public class QuizService {
             QuizClient quizClient = quizRepository.verifyJogosCsv(user);
             List<Movie> moviePair = quizRepository.carregarFilmesTemp();
             Movie winnerMovie = compareTwoMoviesByScore(moviePair);
-            checkUserAnswer(quizClientAnswer, winnerMovie, quizClient);
+            quizClient = checkUserAnswer(quizClientAnswer, winnerMovie, quizClient);
+            quizRepository.writeJogo(quizClient);
+            return quizClient;
+
+
 
          //   quizRepository.verifyAnswer(quizClient, quizClientAnswer);
-           //verificar se reposta esta correta
            //alterar situação atual em jogoscsv (vida, pontuacao e tentativa)
            //se vida = 0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
             //TODO Fazer else para tratar as respostas negativas
-       };
+       }
+        return null;
     }
 
     public QuizClient checkUserAnswer(QuizClientAnswer quizClientAnswer, Movie winnerMovie, QuizClient quizClient) {
         if (quizClientAnswer.getAnswer().equals(winnerMovie.getImdbId())) {
-            quizClient.setScore(quizClient.getScore() + 1);
+            quizClient.setScore(quizClient.getScore() + 10);
+            quizClient.setTotalOfMoves(quizClient.getTotalOfMoves() + 1);
         } else {
             quizClient.setLife(quizClient.getLife() - 1);
+            quizClient.setTotalOfMoves(quizClient.getTotalOfMoves() + 1);
+            if (quizClient.getLife() == 0 ){
+                return new QuizClient();
+            }
         }
         return quizClient;
     }
