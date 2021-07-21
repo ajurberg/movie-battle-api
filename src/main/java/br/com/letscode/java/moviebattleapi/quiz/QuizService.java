@@ -55,37 +55,28 @@ public class QuizService {
         //verificando usuario e senha
         if (login(user)){
            //verificando se tem jogo ativo, se tiver carregar quizCliente, senao fazer um novo iniciando com 3 vidas
-
             QuizClient quizClient = quizRepository.verifyJogosCsv(user);
+            List<Movie> moviePair = quizRepository.carregarFilmesTemp();
+            Movie winnerMovie = compareTwoMoviesByScore(moviePair);
+            checkUserAnswer(quizClientAnswer, winnerMovie, quizClient);
+
          //   quizRepository.verifyAnswer(quizClient, quizClientAnswer);
            //verificar se reposta esta correta
            //alterar situação atual em jogoscsv (vida, pontuacao e tentativa)
-           //se vida <0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
+           //se vida = 0 finalizar jogo, excluir de jogos.csv e adidionar ao ranking (ordenar)
             //TODO Fazer else para tratar as respostas negativas
        };
-
-
     }
 
-    public static int getRandomNumberUsingNextInt(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(max - min) + min;
-    }
-
-    public Boolean login(User user) throws IOException {
-
-        if (this.userService.verificaUsuario(user)) {
-            return true;
+    public QuizClient checkUserAnswer(QuizClientAnswer quizClientAnswer, Movie winnerMovie, QuizClient quizClient) {
+        if (quizClientAnswer.getAnswer().equals(winnerMovie.getImdbId())) {
+            quizClient.setScore(quizClient.getScore() + 1);
         } else {
-            return false;
+            quizClient.setLife(quizClient.getLife() - 1);
         }
+        return quizClient;
     }
 
-    // TODO
-    // createGame()
-
-
-    // TODO
     public List createQuiz() throws IOException {
         List<Movie> moviePair = new ArrayList<>();
         // 1- Pegar 2 Filmes - OK
@@ -102,7 +93,8 @@ public class QuizService {
         return moviePair;
     }
 
-        public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
+    public static Movie compareTwoMoviesByScore(List<Movie> moviePair) {
+
         if (null == moviePair) {
             // TODO log
         } else {
@@ -115,6 +107,20 @@ public class QuizService {
             }
         }
         return null;
+    }
+
+    public static int getRandomNumberUsingNextInt(int min, int max) {
+        Random random = new Random();
+        return random.nextInt(max - min) + min;
+    }
+
+    public Boolean login(User user) throws IOException {
+
+        if (this.userService.verificaUsuario(user)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

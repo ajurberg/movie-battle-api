@@ -46,7 +46,6 @@ public class QuizRepository {
         for (Movie m : moviePair) {
             String linha = String.format("%s;%s;%s;%s;%s;%s;\n", m.getImdbId(), m.getTitle(), m.getYear(), m.getRating(), m.getVotes(), m.getScore());
             linhas.add(linha);
-
         }
         return linhas;
     }
@@ -72,14 +71,12 @@ public class QuizRepository {
         return movieDTOList;
     }
 
-
     public QuizClient carregarJogos(User user) throws IOException {
         // List<QuizClient> quizClientList = new ArrayList<>();
         this.quizPathTemp = Paths.get(jogosPath);
         Reader leitor = Files.newBufferedReader(this.quizPathTemp);
         CSVReader csvReader = new CSVReader(leitor);
         String[] linhaArq;
-
         while ((linhaArq = csvReader.readNext()) != null) {
             for (String s : linhaArq) {
                 if (s.contains(user.getUserId())) {
@@ -91,7 +88,6 @@ public class QuizRepository {
                     quizClient.setLife(Integer.valueOf(token.nextToken()));
                     return quizClient;
                 }
-
             }
         }
         return null;
@@ -102,25 +98,17 @@ public class QuizRepository {
 
         //metodo para escrever no arquivo se nao existir jogo ativo
         QuizClient quizClient = carregarJogos(user);
-
-
         if (quizClient != null) {
-
             return quizClient;
-
-
         } else {
-
             quizClient = new QuizClient();
             quizClient.setUserIdQuiz(user.getUserId());
             quizClient.setTotalOfMoves(0);
             quizClient.setScore(0);
             quizClient.setLife(3);
-
             this.quizPathTemp = Paths.get(jogosPath);
             try (BufferedWriter bf = Files.newBufferedWriter(quizPathTemp, StandardOpenOption.APPEND)) {
                 String quizClientString = String.format("%s;%s;%s;%s;\n", quizClient.getUserIdQuiz(), quizClient.getScore(), quizClient.getTotalOfMoves(), quizClient.getLife());
-
                 bf.write(quizClientString);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -129,11 +117,26 @@ public class QuizRepository {
         }
     }
 
-    public void verifyAnswer(QuizClient quizClient, QuizClientAnswer quizClientAnswer) {
-
-
-
-
+    public List<Movie> carregarFilmesTemp() throws IOException {
+        this.quizPathTemp = Paths.get(quizPath);
+        Reader leitor = Files.newBufferedReader(this.quizPathTemp);
+        CSVReader csvReader = new CSVReader(leitor);
+        String[] linhaArq;
+        List<Movie> moviePair = new ArrayList<>();
+        while ((linhaArq = csvReader.readNext()) != null) {
+            for (String s : linhaArq) {
+                Movie movie = new Movie();
+                StringTokenizer token = new StringTokenizer(s, ";");
+                movie.setImdbId(token.nextToken());
+                movie.setTitle(token.nextToken());
+                movie.setYear(Integer.valueOf(token.nextToken()));
+                movie.setRating(Double.valueOf(token.nextToken()));
+                movie.setVotes(Double.valueOf(token.nextToken()));
+                movie.setScore(movie.getRating()* movie.getVotes());
+                moviePair.add(movie);
+            }
+        }
+        return moviePair;
     }
 }
 //deve criar o arquivo jogos.csv
