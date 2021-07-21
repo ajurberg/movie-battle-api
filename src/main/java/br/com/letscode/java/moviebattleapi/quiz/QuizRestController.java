@@ -1,9 +1,6 @@
 package br.com.letscode.java.moviebattleapi.quiz;
 
-import br.com.letscode.java.moviebattleapi.quiz.user.User;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,27 +19,11 @@ public class QuizRestController {
 
    @GetMapping
     public List createQuiz() throws IOException {
-
-
         return quizService.pickTwoMovies();
-
     }
 
    @PostMapping
     public QuizClient receiveAnswer(@RequestBody QuizClientAnswer quizClientAnswer){
-
-       //TODO fazer o metodo abaixo em service
        return  quizService.verifyAnswer(quizClientAnswer);
-
     }
-
-
-
-    //get
-    //retorna dois filmes
-
-    //post
-    //deve conter senha, usuario e id do filme vencedor encapsulado em requestbody
-
-    //get para ranking
 }

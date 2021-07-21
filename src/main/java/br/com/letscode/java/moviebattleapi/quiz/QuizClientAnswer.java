@@ -1,6 +1,5 @@
 package br.com.letscode.java.moviebattleapi.quiz;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

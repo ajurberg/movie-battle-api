@@ -2,8 +2,6 @@ package br.com.letscode.java.moviebattleapi.quiz.user;
 
 import br.com.letscode.java.moviebattleapi.security.Criptografia;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -34,17 +32,14 @@ public class UserService {
                 user.getPassword().length() < 4 || user.getPassword().length() > 8) {
             return false;
         } else {
-            // Verifica caracteres especiais
             Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
             Matcher userMatcher = pattern.matcher(user.getUserId());
             boolean isUserMatcher = userMatcher.find();
             Matcher passwordMatcher = pattern.matcher(user.getPassword());
             boolean isPasswordMatcher = passwordMatcher.find();
             if (isUserMatcher || isPasswordMatcher) {
-                //System.out.println("A string possui caracteres especiais"); // TODO Log
                 return false;
             } else {
-                //System.out.println("A string não possui caracteres especiais"); // TODO Log
                 return true;
             }
         }

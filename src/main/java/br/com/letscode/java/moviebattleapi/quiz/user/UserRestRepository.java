@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
@@ -45,8 +44,6 @@ public class UserRestRepository {
 
     private String formatar(User usuario) {
         return String.format("%s;%s;\n", usuario.getUserId(), usuario.getPassword());
-        //todo colocar as vidas do jogador - Não é aqui. Precisamos de uma classe Config
-//        return String.format("%s;%s;%d;\n", usuario.getUserId(), usuario.getPassword(), usuario.getLife);
     }
 
     public List<User> getAll() throws IOException {

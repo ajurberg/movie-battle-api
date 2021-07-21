@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -72,7 +71,6 @@ public class QuizRepository {
     }
 
     public QuizClient carregarJogos(User user) throws IOException {
-        // List<QuizClient> quizClientList = new ArrayList<>();
         this.quizPathTemp = Paths.get(jogosPath);
         Reader leitor = Files.newBufferedReader(this.quizPathTemp);
         CSVReader csvReader = new CSVReader(leitor);
@@ -95,8 +93,6 @@ public class QuizRepository {
 
 
     public QuizClient verifyJogosCsv(User user) throws IOException {
-
-        //metodo para escrever no arquivo se nao existir jogo ativo
         QuizClient quizClient = carregarJogos(user);
         if (quizClient != null) {
             return quizClient;
@@ -143,10 +139,6 @@ public class QuizRepository {
         return moviePair;
     }
 }
-//deve criar o arquivo jogos.csv
-//o arquivo deve possuir em cada linha o nome do usuario, x/y
-//sendo x = acertos e y, total, adicionaremos z
-//z sendo a qtd de vidas
 
 
 

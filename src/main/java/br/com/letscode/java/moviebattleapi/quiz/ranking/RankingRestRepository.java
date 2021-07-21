@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Repository
@@ -53,13 +52,7 @@ public class RankingRestRepository {
         }
         return this.rankingSorted;
     }
-
     public Stream<QuizClient> sortedRanking(List<QuizClient> listaRanking ) {
-//        return listaRanking.stream().sorted((o1, o2)->o1.getScore().
-//                compareTo(o2.getScore()).
-//                collect(Collectors.toList());
-
-
         return listaRanking.stream()
                 .sorted(Comparator.comparingInt(QuizClient::getScore).reversed());
     }

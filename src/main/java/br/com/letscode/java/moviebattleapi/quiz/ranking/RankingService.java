@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
@@ -20,10 +19,4 @@ public class RankingService {
         return rankingRestRepository.sortedRanking(lista);
 
     }
-
-    //podemos criar uma regra de verificar quantos
-    //resultados possui o ranking e limitar a lista
-    // a 10 resultados, exlcuindo os demais
-
-    //pegar os dados, ordenar por ranking, gravar novamente
 }
