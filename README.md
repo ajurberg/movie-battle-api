@@ -1,9 +1,11 @@
 # Movie Battle Api
 
 ## Projeto desenvolvido em grupo pelos integrantes: 
+>Anderson Kopke
+
 >Arnon Jurberg
 
->Anderson Kopke
+>Arthur Ferreira
 
 >Desirée T. Andrade
 
