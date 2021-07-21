@@ -2,6 +2,7 @@ package br.com.letscode.java.moviebattleapi.quiz;
 
 import br.com.letscode.java.moviebattleapi.imdbclient.ImdbScraper;
 import br.com.letscode.java.moviebattleapi.movie.Movie;
+import br.com.letscode.java.moviebattleapi.quiz.ranking.RankingRestRepository;
 import br.com.letscode.java.moviebattleapi.quiz.user.User;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserRestRepository;
 import br.com.letscode.java.moviebattleapi.quiz.user.UserService;
@@ -21,6 +22,7 @@ public class QuizService {
     private final UserRestRepository userRestRepository;
     private final UserService userService;
     private final QuizRepository quizRepository;
+    private final RankingRestRepository rankingRestRepository;
 
 
     public List pickTwoMovies() throws IOException {
@@ -80,6 +82,7 @@ public class QuizService {
             quizClient.setLife(quizClient.getLife() - 1);
             quizClient.setTotalOfMoves(quizClient.getTotalOfMoves() + 1);
             if (quizClient.getLife() == 0 ){
+                this.rankingRestRepository.writeRanking(quizClient);
                 return new QuizClient();
             }
         }
